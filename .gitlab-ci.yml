@@ -1,0 +1,16 @@
+stages:
+  - deploy
+deploy_production:
+  stage: deploy
+  script:
+    - rsync -av * /var/www/html/www.medin.uz/ --no-perms --no-owner --no-group
+    - cd /var/www/html/www.medin.uz/
+    - docker-compose up --build -d
+    - docker-compose exec -T frontend_medin ./init --env=Production --overwrite=All
+    - docker-compose exec -T frontend_medin composer install
+    - docker-compose exec -T frontend_medin ./yii migrate --interactive=0
+  environment:
+    name: production
+    url: http://medin.uz/
+  only:
+    - master

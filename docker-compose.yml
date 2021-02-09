@@ -1,0 +1,49 @@
+version: '3.2'
+
+services:
+
+  frontend_medin:
+    build: frontend
+    ports:
+      - 63031:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    restart: unless-stopped
+
+  backend_medin:
+    build: backend
+    ports:
+      - 63032:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    restart: unless-stopped
+
+  storage_medin:
+    build: storage
+    ports:
+      - 63033:80
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+    restart: unless-stopped
+
+  mysql_medin:
+    image: mysql:5.7
+    ports:
+      - 63034:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=1q2w3e4r5tmedin
+      - MYSQL_DATABASE=medin
+      - MYSQL_USER=medin
+      - MYSQL_PASSWORD=1q2w3e4r5tmedin
+    volumes:
+      - ./:/app
+    restart: unless-stopped
