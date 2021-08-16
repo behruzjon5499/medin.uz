@@ -27,12 +27,12 @@ class TestController extends Controller
             'hello' => 'world',
             'coding' => 'is cool',
         );
-        $response['posts'] = $posts;
+        $json = json_encode($posts);
+        if (file_put_contents("data.json", $json))
+            echo "JSON file created successfully";
+        else
+            echo "Some Error creating json file";
 
-        $fp = fopen('myarray.json', 'w');
-        fwrite($fp, json_encode($response));
-        fclose($fp);
-        return  $fp;
     }
 
     public function actionIp()
@@ -135,8 +135,25 @@ class TestController extends Controller
         ]);
 
     }
+    public function actionView()
+    {
+        $data = $this->testRepository->getData();
+        return $this->render('@app/views/test/view',[
+            'data'=>$data
+        ]);
 
+    }
+    public function actionJson()
+    {
+        $json = file_get_contents('data.json');
 
+        $json_data = json_decode($json,true);
+
+        return $this->render('view',[
+            'data'=>$json_data
+        ]);
+
+    }
 }
 
 ?>
