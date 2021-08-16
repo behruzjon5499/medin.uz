@@ -38,7 +38,8 @@
     "fishvision/yii2-migrate": "^1.0",
     "ext-mbstring": "*",
     "himiklab/yii2-recaptcha-widget": "2.*",
-    "egulias/email-validator": "^2.1"
+    "egulias/email-validator": "^2.1",
+    "ext-json": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
